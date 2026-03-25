@@ -1,15 +1,16 @@
 import Image from "next/image";
+
 interface Course {
   title: string;
   image: string;
   description: string;
   price: number;
+  planId: string;
 }
-
 
 interface Props {
   item: Course;
-  onBuy: (price: number, itemName: string) => void;
+  onBuy: (price: number, planId: string, itemName: string) => void;
 }
 
 export default function CourseCard({ item, onBuy }: Props) {
@@ -32,7 +33,7 @@ export default function CourseCard({ item, onBuy }: Props) {
         <div className="flex items-center justify-between">
           <span className="text-blue-600 font-bold text-lg">₹{item.price}</span>
           <button
-            onClick={() => onBuy(item.price, item.title)}
+            onClick={() => onBuy(item.price, item.planId, item.title)}
             className="bg-blue-600 text-white px-3 py-1 rounded-lg text-sm hover:bg-blue-700"
           >
             Buy

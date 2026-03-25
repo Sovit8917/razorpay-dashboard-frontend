@@ -7,8 +7,8 @@ export const authConfig: NextAuthConfig = {
   },
   callbacks: {
     authorized() {
-  return true;
-},
+      return true;
+    },
     async jwt({ token, user }) {
       if (user) {
         token.accessToken = user.accessToken;
@@ -32,7 +32,7 @@ export const authConfig: NextAuthConfig = {
     Credentials({
       name: "Credentials",
       credentials: {
-        email: { label: "Username", type: "text" },
+        email: { label: "Email", type: "text" },
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
@@ -45,9 +45,8 @@ export const authConfig: NextAuthConfig = {
               method: "POST",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({
-                username: credentials.email,
+                email: credentials.email,
                 password: credentials.password,
-                expiresInMins: 30,
               }),
             }
           );
@@ -55,13 +54,15 @@ export const authConfig: NextAuthConfig = {
           const json = await res.json();
           if (!res.ok) return null;
 
+          const { data } = json;
+
           return {
-            id: String(json.id),
-            uuid: String(json.id),
-            name: `${json.firstName} ${json.lastName}`,
-            email: json.email,
-            accessToken: json.accessToken,
-            refreshToken: json.refreshToken,
+            id: data.user.uuid,
+            uuid: data.user.uuid,
+            name: data.user.name,
+            email: data.user.email,
+            accessToken: data.access_token,
+            refreshToken: data.refresh_token,
           };
         } catch {
           return null;

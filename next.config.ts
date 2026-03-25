@@ -1,7 +1,3 @@
-const nextConfig = {
-  images: {
-    domains: ["images.unsplash.com"],
-  },
-};
+const nextConfig = {};
 
 export default nextConfig;

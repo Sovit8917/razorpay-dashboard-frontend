@@ -1,5 +1,5 @@
 "use client";
-
+import { usePathname } from "next/navigation";
 import React, { useState } from "react";
 import { useSession, signOut } from "next-auth/react";
 import Link from "next/link";
@@ -8,6 +8,7 @@ import { Menu, X } from "lucide-react";
 function Navbar() {
   const { data: session } = useSession();
   const [open, setOpen] = useState(false);
+  const pathname = usePathname();
 
   return (
     <>
@@ -28,18 +29,26 @@ function Navbar() {
         {/* Desktop Navigation */}
             <div className="hidden md:flex items-center gap-6 ml-6">
               <Link
-                href="/dashboard"
-                className="text-sm font-medium text-gray-800 hover:text-blue-600 transition"
-              >
-                Dashboard
-              </Link>
+  href="/dashboard"
+  className={`text-sm font-medium transition px-5 py-2.5 rounded ${
+    pathname === "/dashboard"
+      ? "text-blue-600 bg-blue-100 font-semibold"
+      : "text-gray-800 hover:text-blue-600"
+  }`}
+>
+  Dashboard
+</Link>
 
-              <Link
-                href="/payment"
-                className="text-sm font-medium text-gray-800 hover:text-blue-600 transition"
-              >
-                Courses
-              </Link>
+<Link
+  href="/payment"
+  className={`text-sm font-medium transition px-6 py-2.5 rounded ${
+    pathname === "/payment"
+      ? "text-blue-600 font-semibold bg-blue-100"
+      : "text-gray-800 hover:text-blue-600"
+  }`}
+>
+  Courses
+</Link>
             </div>
           </div>
           {/* right side */}
@@ -82,20 +91,28 @@ function Navbar() {
       {/* Navigation */}
       <div className="flex flex-col p-4 gap-3">
         <Link
-          href="/dashboard"
-          onClick={() => setOpen(false)}
-          className="text-gray-800 font-medium hover:text-blue-600 hover:bg-gray-100 px-3 py-2 rounded-md"
-        >
-          Dashboard
-        </Link>
+  href="/dashboard"
+  onClick={() => setOpen(false)}
+  className={`px-3 py-2 rounded-md font-medium ${
+    pathname === "/dashboard"
+      ? "text-blue-600 bg-blue-100"
+      : "text-gray-800 hover:text-blue-600 hover:bg-gray-100"
+  }`}
+>
+  Dashboard
+</Link>
 
-        <Link
-          href="/payment"
-          onClick={() => setOpen(false)}
-          className="text-gray-800 font-medium hover:text-blue-600 hover:bg-gray-100 px-3 py-2 rounded-md"
-        >
-          Courses
-        </Link>
+<Link
+  href="/payment"
+  onClick={() => setOpen(false)}
+  className={`px-3 py-2 rounded-md font-medium ${
+    pathname === "/payment"
+      ? "text-blue-600 bg-blue-100"
+      : "text-gray-800 hover:text-blue-600 hover:bg-gray-100"
+  }`}
+>
+  Courses
+</Link>
       </div>
     </div>
 
