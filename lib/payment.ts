@@ -48,3 +48,18 @@ export async function verifyPayment(payload: {
   if (!res.ok) throw new Error(extractError(data));
   return data;
 }
+
+export async function getPremiumContent() {
+  const session = await getSession();
+
+  const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_API_URL}/premium`, {
+    headers: {
+      Authorization: `Bearer ${session?.accessToken}`,
+    },
+  });
+
+  if (res.status === 403) return null; // no active subscription
+  const data = await res.json();
+  if (!res.ok) throw new Error(extractError(data));
+  return data;
+}

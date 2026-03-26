@@ -12,7 +12,7 @@ export default function PaymentView() {
         <h1 className="text-3xl text-gray-600 font-bold mb-8 text-center">
           Explore Courses
         </h1>
-        <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+        <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-10">
           {cardData.map((item) => (
             <CourseCard key={item.title} item={item} onBuy={pay} />
           ))}

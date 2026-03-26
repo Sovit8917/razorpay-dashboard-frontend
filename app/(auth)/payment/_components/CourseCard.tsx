@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { Check } from "lucide-react";
 
 interface Course {
   title: string;
@@ -6,6 +7,7 @@ interface Course {
   description: string;
   price: number;
   planId: string;
+  features: string[];
 }
 
 interface Props {
@@ -15,28 +17,44 @@ interface Props {
 
 export default function CourseCard({ item, onBuy }: Props) {
   return (
-    <div className="bg-white rounded-2xl shadow-md hover:shadow-xl transition duration-300 overflow-hidden hover:scale-105">
+    <div className="bg-white rounded-2xl shadow-md hover:shadow-2xl transition duration-300 overflow-hidden hover:scale-105 border border-gray-100 flex flex-col">
+
       <Image
         src={item.image}
         alt={item.title}
-        height={200}
-        width={200}
-        className="h-40 w-full object-cover"
+        height={500}
+        width={500}
+        className="h-50 w-full object-cover"
       />
-      <div className="p-4">
-        <h2 className="text-lg text-gray-700 font-semibold mb-2">
+
+      <div className="p-5 flex flex-col flex-grow">
+        <h2 className="text-xl font-bold text-gray-800 mb-1">
           {item.title}
         </h2>
-        <p className="text-gray-600 text-sm mb-3 line-clamp-2">
+
+        <p className="text-gray-500 text-sm mb-4">
           {item.description}
         </p>
-        <div className="flex items-center justify-between">
-          <span className="text-blue-600 font-bold text-lg">₹{item.price}</span>
+
+        <ul className="space-y-2 mb-5 flex-grow">
+          {item.features.map((feature, index) => (
+            <li key={index} className="flex items-center text-sm text-gray-600">
+              <Check className="text-green-500 mr-2" size={16} />
+              {feature}
+            </li>
+          ))}
+        </ul>
+
+        <div className="flex items-center justify-between mt-auto">
+          <span className="text-2xl font-bold text-blue-600">
+            ₹{item.price}
+          </span>
+
           <button
             onClick={() => onBuy(item.price, item.planId, item.title)}
-            className="bg-blue-600 text-white px-3 py-1 rounded-lg text-sm hover:bg-blue-700"
+            className="bg-blue-400 text-white px-4 py-2 rounded-lg text-sm font-medium hover:opacity-90 transition"
           >
-            Buy
+            Buy Now
           </button>
         </div>
       </div>
