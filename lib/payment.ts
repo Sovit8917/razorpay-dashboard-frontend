@@ -1,13 +1,14 @@
 import { getSession } from "next-auth/react";
 
 function extractError(data: any): string {
-  if (typeof data.message === "string") return data.message;
   if (Array.isArray(data.message)) {
     return data.message
       .map((m: any) => (typeof m === "string" ? m : m?.message || JSON.stringify(m)))
       .join(", ");
   }
-  return JSON.stringify(data);
+  if (typeof data.message === "string") return data.message;
+  if (typeof data.error === "string") return data.error;
+  return "Something went wrong";
 }
 
 export async function createOrder(planId: string, amount: number) {
@@ -24,7 +25,7 @@ export async function createOrder(planId: string, amount: number) {
 
   const data = await res.json();
   if (!res.ok) throw new Error(extractError(data));
-  return data.data; // { order_id, amount, currency }
+  return data.data;
 }
 
 export async function verifyPayment(payload: {

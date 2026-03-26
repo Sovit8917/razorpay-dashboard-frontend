@@ -47,7 +47,7 @@ function Navbar() {
       : "text-gray-800 hover:text-blue-600"
   }`}
 >
-  Courses
+  Payment
 </Link>
             </div>
           </div>
@@ -111,7 +111,7 @@ function Navbar() {
       : "text-gray-800 hover:text-blue-600 hover:bg-gray-100"
   }`}
 >
-  Courses
+  Payment
 </Link>
       </div>
     </div>

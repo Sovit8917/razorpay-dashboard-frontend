@@ -16,32 +16,42 @@ export function useRazorpay() {
   const pay = async (price: number, planId: string, itemName: string) => {
     await loadScript();
 
-    const order = await createOrder(planId, price);
-    console.log("ORDER FROM BACKEND:", order);
+    let order;
+    try {
+      order = await createOrder(planId, price);
+      console.log("ORDER FROM BACKEND:", order);
+    } catch (err: any) {
+      toast.error(err.message || "Failed to create order");
+      return;
+    }
 
     const rzp = new (window as any).Razorpay({
       key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
       amount: order.amount,
       currency: order.currency,
-      name: "Sovit Courses",
+      name: "Subscription Plan",
       description: itemName,
-      order_id: order.order_id, // ✅ fixed: was order.orderId
+      order_id: order.order_id,
+      
       handler: async (response: any) => {
         console.log("Razorpay Response:", response);
 
-        const result = await verifyPayment({
-          razorpay_order_id: response.razorpay_order_id,     // ✅ fixed
-          razorpay_payment_id: response.razorpay_payment_id, // ✅ fixed
-          razorpay_signature: response.razorpay_signature,   // ✅ fixed
-        });
-
-        if (result.success) {
-          toast.success("Payment Successful");
-        } else {
-          toast.error("Payment Failed");
+        try {
+          const result = await verifyPayment({
+            razorpay_order_id: response.razorpay_order_id,
+            razorpay_payment_id: response.razorpay_payment_id,
+            razorpay_signature: response.razorpay_signature,
+          });
+if (result.data?.message) {
+            toast.success("Payment Successful");
+          } else {
+            toast.error("Payment Failed");
+          }
+        } catch (err: any) {
+          toast.error(err.message || "You Have Already Purchased This Plan");
         }
       },
-      theme: { color: "#2563eb" },
+      theme: { color: "#7c3aed" },
     });
 
     rzp.open();
