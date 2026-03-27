@@ -1,26 +1,18 @@
 "use client";
 import { usePathname } from "next/navigation";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useSession, signOut } from "next-auth/react";
 import Link from "next/link";
-import { Menu, X } from "lucide-react";
-import { getPremiumContent } from "@/lib/payment";
-import { Star } from "lucide-react";
+import { Menu, X, Star } from "lucide-react";
+import { useSubscription } from "@/context/SubscriptionContext";
 
 function Navbar() {
   const { data: session } = useSession();
+  const { subscription } = useSubscription();
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
-  const [hasPremium, setHasPremium] = useState(false);
 
-  useEffect(() => {
-    if (!session?.accessToken) return;
-    getPremiumContent()
-      .then((json) => {
-        if (json !== null) setHasPremium(true);
-      })
-      .catch(() => setHasPremium(false));
-  }, [session?.accessToken]);
+  const hasPremium = !!subscription;
 
   return (
     <>
@@ -79,9 +71,7 @@ function Navbar() {
           </div>
 
           <div className="hidden md:flex items-center gap-4">
-            <span className="text-sm text-gray-600">
-              {session?.user?.email}
-            </span>
+            <span className="text-sm text-gray-600">{session?.user?.email}</span>
             <button
               onClick={() => signOut({ callbackUrl: "/login" })}
               className="bg-red-500 hover:bg-red-600 text-white text-sm px-4 py-2 rounded-md transition"
@@ -153,7 +143,6 @@ function Navbar() {
                   }`}
                 >
                   <span className="flex gap-2.5">
-                    {" "}
                     <Star className="h-5" /> Premium
                   </span>
                 </Link>

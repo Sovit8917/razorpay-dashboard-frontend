@@ -63,7 +63,6 @@ export async function getPremiumContent() {
   if (!res.ok) throw new Error(extractError(data));
   return data;
 }
-
 export async function getUserSubscription() {
   const session = await getSession();
 

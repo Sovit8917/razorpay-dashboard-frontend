@@ -1,37 +1,16 @@
 "use client";
-import { useEffect, useState, useCallback } from "react";
+import { useSubscription } from "@/context/SubscriptionContext";
 import { cardData } from "@/data/courseData";
 import { useRazorpay } from "../_hooks/useRazorpay";
-import { getUserSubscription } from "@/lib/payment";
 import CourseCard from "./CourseCard";
 
 export default function PaymentView() {
-  const [currentPlanId, setCurrentPlanId] = useState<string | null>(null);
+  const { subscription, refetch } = useSubscription();
 
-  const fetchSubscription = useCallback(async () => {
-    try {
-      const sub = await getUserSubscription();
-      console.log("SUBSCRIPTION RESPONSE:", sub);
+  const currentPlanId =
+    subscription?.plan_id ?? cardData.find((c) => c.price === 0)?.planId ?? null;
 
-const planId = sub?.plan_id ?? null;
-
-      if (planId) {
-        setCurrentPlanId(planId);
-      } else {
-        const freePlan = cardData.find((c) => c.price === 0);
-        if (freePlan) setCurrentPlanId(freePlan.planId);
-      }
-    } catch {
-      const freePlan = cardData.find((c) => c.price === 0);
-      if (freePlan) setCurrentPlanId(freePlan.planId);
-    }
-  }, []);
-
-  useEffect(() => {
-    fetchSubscription();
-  }, [fetchSubscription]);
-
-  const { pay } = useRazorpay(fetchSubscription); //as callback fetchSubscription
+  const { pay } = useRazorpay(refetch);
 
   return (
     <div className="min-h-screen bg-gray-100">
