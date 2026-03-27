@@ -58,8 +58,28 @@ export async function getPremiumContent() {
     },
   });
 
-  if (res.status === 403) return null; // no active subscription
+  if (res.status === 403) return null;
   const data = await res.json();
   if (!res.ok) throw new Error(extractError(data));
   return data;
+}
+
+export async function getUserSubscription() {
+  const session = await getSession();
+
+  const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_API_URL}/users/dashboard`, {
+    headers: {
+      Authorization: `Bearer ${session?.accessToken}`,
+    },
+  });
+
+  const data = await res.json();
+  if (!res.ok) throw new Error(extractError(data));
+
+  console.log("RAW DASHBOARD:", JSON.stringify(data)); 
+
+  const sub = data?.data?.subscription;
+  if (sub?.status === "ACTIVE") return sub;
+
+  return null;
 }

@@ -26,9 +26,12 @@ function Navbar() {
     <>
       <nav className="bg-white shadow-sm border-b border-gray-300">
         <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
-
           <div className="flex items-center gap-4">
-            <button className="md:hidden text-gray-900" onClick={() => setOpen(true)} aria-label="Open menu">
+            <button
+              className="md:hidden text-gray-900"
+              onClick={() => setOpen(true)}
+              aria-label="Open menu"
+            >
               <Menu size={24} />
             </button>
 
@@ -66,14 +69,19 @@ function Navbar() {
                       : "text-purple-600 hover:bg-purple-50"
                   }`}
                 >
-                  <span className="flex gap-2.5"> <Star className="h-5" /> Premium</span>
+                  <div className="flex items-center gap-2">
+                    <Star size={20} />
+                    <span>Premium</span>
+                  </div>
                 </Link>
               )}
             </div>
           </div>
 
           <div className="hidden md:flex items-center gap-4">
-            <span className="text-sm text-gray-600">{session?.user?.email}</span>
+            <span className="text-sm text-gray-600">
+              {session?.user?.email}
+            </span>
             <button
               onClick={() => signOut({ callbackUrl: "/login" })}
               className="bg-red-500 hover:bg-red-600 text-white text-sm px-4 py-2 rounded-md transition"
@@ -85,7 +93,10 @@ function Navbar() {
       </nav>
 
       {open && (
-        <div className="fixed inset-0 bg-black/40 z-40" onClick={() => setOpen(false)} />
+        <div
+          className="fixed inset-0 bg-black/40 z-40"
+          onClick={() => setOpen(false)}
+        />
       )}
 
       <div
@@ -97,7 +108,11 @@ function Navbar() {
           <div>
             <div className="flex justify-between items-center p-4 border-b">
               <h2 className="font-semibold text-lg text-gray-800">Menu</h2>
-              <button className="text-gray-700" onClick={() => setOpen(false)} aria-label="Close menu">
+              <button
+                className="text-gray-700"
+                onClick={() => setOpen(false)}
+                aria-label="Close menu"
+              >
                 <X size={22} />
               </button>
             </div>
@@ -137,14 +152,19 @@ function Navbar() {
                       : "text-purple-600 hover:bg-purple-50"
                   }`}
                 >
-                  ⭐ Premium
+                  <span className="flex gap-2.5">
+                    {" "}
+                    <Star className="h-5" /> Premium
+                  </span>
                 </Link>
               )}
             </div>
           </div>
 
           <div className="p-4 border-t mt-auto">
-            <p className="text-sm text-gray-600 break-words mb-3">{session?.user?.email}</p>
+            <p className="text-sm text-gray-600 break-words mb-3">
+              {session?.user?.email}
+            </p>
             <button
               onClick={() => signOut({ callbackUrl: "/login" })}
               className="w-full bg-red-500 hover:bg-red-600 text-white text-sm px-4 py-2 rounded-md"

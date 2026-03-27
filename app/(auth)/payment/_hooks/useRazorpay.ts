@@ -1,7 +1,9 @@
 import { createOrder, verifyPayment } from "@/lib/payment";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
-export function useRazorpay() {
+export function useRazorpay(onSuccess?: () => void) {
+  const router = useRouter();
   const loadScript = () =>
     new Promise<boolean>((resolve) => {
       if (document.querySelector('script[src*="razorpay"]'))
@@ -44,6 +46,8 @@ export function useRazorpay() {
           });
 if (result.data?.message) {
             toast.success("Payment Successful");
+             onSuccess?.();
+             router.push("/premium");
           } else {
             toast.error("Payment Failed");
           }
