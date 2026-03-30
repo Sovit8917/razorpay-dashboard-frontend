@@ -46,8 +46,8 @@ export function useRazorpay(onSuccess?: () => void) {
           });
 if (result.data?.message) {
             toast.success("Payment Successful");
-             onSuccess?.();
-             router.push("/premium");
+             await onSuccess?.();  // ✅ await the refetch first
+router.push("/premium");
           } else {
             toast.error("Payment Failed");
           }

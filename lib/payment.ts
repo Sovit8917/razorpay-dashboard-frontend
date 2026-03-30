@@ -76,9 +76,7 @@ export async function getUserSubscription() {
   if (!res.ok) throw new Error(extractError(data));
 
   console.log("RAW DASHBOARD:", JSON.stringify(data)); 
-
-  const sub = data?.data?.subscription;
-  if (sub?.status === "ACTIVE") return sub;
-
-  return null;
+const sub = data?.data?.subscription;
+if (sub) return sub; // ✅ just return it if it exists
+return null;
 }
