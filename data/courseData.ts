@@ -1,7 +1,7 @@
 export const cardData = [
   {
     title: "Free Plan",
-    planId: "39c74fe1-19d0-4030-99d0-94871a01a54a",
+    planId: "149fd3ee-5d68-4934-8e88-7e5643e6d603",
     price: 0,
     image: "/free.png",
     description: "Get started with limited access for free.",
@@ -14,7 +14,7 @@ export const cardData = [
   },
   {
     title: "Basic Plan",
-    planId: "be1eecff-0938-4ae6-ae75-43840850a503",
+    planId: "697affef-9464-4f50-b73a-554f52f2c834",
     price: 199,
     image: "/basic.png",
     description: "Perfect for learners who want more than basics.",
@@ -30,7 +30,7 @@ export const cardData = [
   },
   {
     title: "Premium Plan",
-    planId: "59e58bb6-8726-4cff-828f-17793778ecf2",
+    planId: "7d5eaa80-e3e8-4473-ab97-e559e95b8b67",
     price: 499,
     image: "/premium.png",
     description: "Best for serious learners with full access & benefits.",

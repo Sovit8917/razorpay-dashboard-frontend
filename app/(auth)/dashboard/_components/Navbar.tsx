@@ -8,7 +8,7 @@ import { useSubscription } from "@/context/SubscriptionContext";
 
 function Navbar() {
   const { data: session } = useSession();
-  const { subscription } = useSubscription();
+  const { subscription, loading: subscriptionLoading } = useSubscription();
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
 
@@ -52,7 +52,9 @@ function Navbar() {
                 Payment
               </Link>
 
-              {hasPremium && (
+              {subscriptionLoading ? (
+                <div className="w-24 h-9 rounded bg-gray-100 animate-pulse" />
+              ) : hasPremium ? (
                 <Link
                   href="/premium"
                   className={`text-sm font-medium transition px-5 py-2.5 rounded ${
@@ -66,7 +68,7 @@ function Navbar() {
                     <span>Premium</span>
                   </div>
                 </Link>
-              )}
+              ) : null}
             </div>
           </div>
 
@@ -132,7 +134,9 @@ function Navbar() {
                 Payment
               </Link>
 
-              {hasPremium && (
+              {subscriptionLoading ? (
+                <div className="h-9 rounded bg-gray-100 animate-pulse mx-1" />
+              ) : hasPremium ? (
                 <Link
                   href="/premium"
                   onClick={() => setOpen(false)}
@@ -146,7 +150,7 @@ function Navbar() {
                     <Star className="h-5" /> Premium
                   </span>
                 </Link>
-              )}
+              ) : null}
             </div>
           </div>
 
